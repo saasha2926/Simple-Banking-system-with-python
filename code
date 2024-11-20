@@ -1,0 +1,87 @@
+
+
+accounts = {}
+
+def createAccount():
+    name = input('enter name off the account holder')
+    account_number = int(input('enter your account number'))
+    balance = float(input('enter initial deposit'))
+    accounts[account_number] = {'name':name , 'balance':balance}
+    print('Account is successfully created for ',name,'with initial deposit',balance)
+
+def deposit(account_number):
+    amount = float(input('enter deposit amount'))
+    if amount < 0:
+        print('negative amount')
+    else :
+        accounts[account_number]['balance'] += amount
+        print('Successfully deposited Rs.',amount)
+        print('current balance: Rs.',accounts[account_number]['balance'])
+
+def withdraw(account_number):
+    amount = float(input('enter withdrawal amount'))
+    if amount > accounts[account_number]['balance']:
+        print('insufficient balance')
+    else:
+        accounts[account_number]['balance']-= amount
+        print('successfully debited Rs.',amount)
+        print('current balance : Rs.',accounts[account_number]['balance'])
+
+def transfer(from_account,to_account):
+    amount = float(input('enter transfer amount'))
+    if amount < 0:
+        print('negative amount')
+    elif amount > accounts[from_account]['balance']:
+        print('Insufficient balance')
+    else:
+        accounts[from_account]['balance'] -= amount
+        accounts[to_account]['balance'] += amount
+
+def view_balance(account_number):
+    print('Current account for account:',account_number,' balance: Rs.',accounts[account_number]['balance'])
+
+
+def main_menu():
+    while True:
+        print('\n-----Welcome to the Bank-----\n')
+        print('Enter your choice...\n1. Create Account\n2.Debit\n3.Credit\n4.Transfer\n5.view balance\n6.exit');
+        choice = input('');
+        if choice == '1':
+            createAccount()
+        elif choice == '2':
+            account_number = int(input('enter account_number'))
+            if account_number in accounts:
+                deposit(account_number)
+            else:
+                print('invalid account')
+        elif choice == '3':
+            account_number = int(input('enter aaccount number'))
+            if account_number in accounts:
+                withdraw(account_number)
+            else:
+                print('invalid account')
+        elif choice == '4':
+            from_account = int(input('enter account number '))
+            if from_account in accounts:
+                to_account = int(input('enter account number you are transferring to'))
+                if to_account in accounts:
+                    transfer(from_account,to_account)
+                else:
+                    print('invalid')
+            else:
+                print('invalid')
+        elif choice == '5':
+            account_number = int(input('enter account number'))
+            if account_number in accounts:
+                view_balance(account_number)
+            else:
+                print('invalid')
+        elif choice == '6':
+            print('exiting...')
+            break
+        else:
+            print('inavlid choice. please try again')
+
+if __name__ == '__main__':
+    main_menu()
+
